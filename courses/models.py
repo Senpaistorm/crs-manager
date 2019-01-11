@@ -21,7 +21,10 @@ class Assessment(models.Model):
 	name = models.CharField(max_length=100)
 	components = models.IntegerField(default=1)
 	weight = models.IntegerField(default=0)
-	due_date = models.DateTimeField('Assessment date or due date')
 
 	def __str__(self):
-		return self.components + ' ' + self.name + ' worth total of ' + self.weight + '%'
+		return (str)(self.components) + ' ' + self.name + ' worth total of ' + (str)(self.weight) + '%' + " for " + self.course.course_code
+
+class Grade(models.Model):
+	assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+	mark = models.DecimalField(decimal_places=2, max_digits=4)

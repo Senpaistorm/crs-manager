@@ -1,0 +1,29 @@
+<!-- {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+ -->
+<h1>Course Manager</h1>
+
+<h2>Current Courses</h2>
+
+{% if latest_course_list %}
+    <ul>
+    {% for course in latest_course_list %}
+    <!--     <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+    <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_code }} {{ course.course_name}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No courses are registered.</p>
+{% endif %}
+
+<h2>Past Courses</h2>
+{% if past_course_list %}
+    <ul>
+    {% for course in past_course_list %}
+    <!--     <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+    <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_code }} {{ course.course_name}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No courses are taken in the past.</p>
+{% endif %}
