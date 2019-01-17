@@ -11,6 +11,7 @@ from django.views import generic
 
 from.models import Course,Assessment
 
+
 class IndexView(generic.ListView):
     template_name = 'courses/index.html'
     context_object_name = 'latest_course_list'

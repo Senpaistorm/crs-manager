@@ -1,19 +1,35 @@
 <h1>{{ course.course_code }} {{course.course_name}}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+{% load static %}
+{% load courses_extra %}
+<link rel="stylesheet" type="text/css" href="{% static 'courses/detail.css' %}">
 
 <div class="table">
     <div class="row">
         <div class="cell">Name</div>
-        <div class="cell">Total Weight</div>
-        <div class="cell">Number</div>
+        <div class="cell">Weight</div>
+        <div class="cell">Grade(%)</div>
     </div>
     {% for assessment in course.assessment_set.all %}
-        <div class="row">
-            <div class="cell">{{assessment.name}}</div>
-            <div class="cell">{{assessment.weight}}</div>
-            <div class="cell">{{assessment.components}}</div>
-        </div>
+        {% if assessment.components > 1 %}
+            {% for i in 1|filter_range:assessment.components %}
+                <div class="row">
+                    <div class="cell">{{assessment.name}} {{i}}</div>
+                    <div class="cell">{{assessment.weight|div:assessment.components}}</div>
+                    <div class="cell">
+                        <input type="number"/>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else%}
+            <div class="row">
+                <div class="cell">{{assessment.name}}</div>
+                <div class="cell">{{assessment.weight}}</div>
+                <div class="cell">
+                    <input type="number"/>
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
