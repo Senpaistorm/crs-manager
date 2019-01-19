@@ -9,8 +9,9 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 
-from.models import Course,Assessment
-
+from.models import Course,Assessment,Grade
+import logging
+logger = logging.getLogger(__name__)
 
 class IndexView(generic.ListView):
     template_name = 'courses/index.html'
@@ -41,3 +42,13 @@ class DetailView(generic.DetailView):
         Excludes any questions that aren't published yet.
         """
         return Course.objects.filter(start_date__lte=timezone.now())
+
+def set_grade(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    assessments = Assessment.objects.filter(course=course)
+    for assessment in assessments:
+        print(assessment.id)
+        for i in range(1, assessment.components+1):
+            print(request.POST[(str)(assessment.id) + "_" + (str)(i)])
+
+    return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))

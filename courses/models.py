@@ -19,8 +19,8 @@ class Course(models.Model):
 		weight = 0.0
 		assessments = Assessment.objects.filter(course=self)
 		for assessment in assessments:
-			weight += assessment.weight
-		return (weight == 100)
+			weight += float(assessment.weight)
+		return (weight == 100.0)
 
 
 class Assessment(models.Model):
@@ -35,3 +35,4 @@ class Assessment(models.Model):
 class Grade(models.Model):
 	assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
 	mark = models.DecimalField(decimal_places=2, max_digits=4)
+	component = models.IntegerField(default=1)

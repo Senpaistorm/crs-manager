@@ -5,6 +5,8 @@
 {% load courses_extra %}
 <link rel="stylesheet" type="text/css" href="{% static 'courses/detail.css' %}">
 
+<form action="{% url 'courses:set_grade' course.id %}" method="post">
+{% csrf_token %}
 <div class="table">
     <div class="row">
         <div class="cell">Name</div>
@@ -18,7 +20,7 @@
                     <div class="cell">{{assessment.name}} {{i}}</div>
                     <div class="cell">{{assessment.weight|div:assessment.components}}</div>
                     <div class="cell">
-                        <input type="number"/>
+                        <input type="number" max="100" name="{{assessment.id}}_{{forloop.counter}}"/>
                     </div>
                 </div>
             {% endfor %}
@@ -27,9 +29,11 @@
                 <div class="cell">{{assessment.name}}</div>
                 <div class="cell">{{assessment.weight}}</div>
                 <div class="cell">
-                    <input type="number"/>
+                    <input type="number" max="100" name="{{assessment.id}}_1"/>
                 </div>
             </div>
         {% endif %}
     {% endfor %}
 </div>
+<input type="submit" value="Save Changes">
+</form>
