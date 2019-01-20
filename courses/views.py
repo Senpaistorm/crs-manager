@@ -49,6 +49,8 @@ def set_grade(request, course_id):
     for assessment in assessments:
         print(assessment.id)
         for i in range(1, assessment.components+1):
-            print(request.POST[(str)(assessment.id) + "_" + (str)(i)])
-
+            mark = request.POST[(str)(assessment.id) + "_" + (str)(i)]
+            print(mark)
+            g = Grade(assessment=assessment, mark=mark, component=i)
+            g.save()
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))

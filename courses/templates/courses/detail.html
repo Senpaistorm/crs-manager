@@ -20,7 +20,8 @@
                     <div class="cell">{{assessment.name}} {{i}}</div>
                     <div class="cell">{{assessment.weight|div:assessment.components}}</div>
                     <div class="cell">
-                        <input type="number" max="100" name="{{assessment.id}}_{{forloop.counter}}"/>
+                        <input type="number" max="100" name="{{assessment.id}}_{{i}}"
+                        value="{{assessment.id|getMark:i}}"/>
                     </div>
                 </div>
             {% endfor %}
@@ -29,7 +30,8 @@
                 <div class="cell">{{assessment.name}}</div>
                 <div class="cell">{{assessment.weight}}</div>
                 <div class="cell">
-                    <input type="number" max="100" name="{{assessment.id}}_1"/>
+                    <input type="number" max="100" name="{{assessment.id}}_1"
+                    value="{{assessment.id|getMark:1}}"/>
                 </div>
             </div>
         {% endif %}

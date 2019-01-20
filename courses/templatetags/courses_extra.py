@@ -1,4 +1,5 @@
 from django import template
+from courses.models import Course, Assessment,Grade
 
 register = template.Library()
 
@@ -21,3 +22,10 @@ def div(value, arg):
     "Divides the value by the arg"
     return int(value) / int(arg)
 
+@register.filter
+def getMark(assessment_id, c):
+    a = Assessment.objects.get(pk=assessment_id)
+    try:
+        return float(a.grade_set.get(component=c).mark)
+    except(Grade.DoesNotExist):
+        return 0.0
