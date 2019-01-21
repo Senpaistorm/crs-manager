@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -9,9 +10,9 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 
-from.models import Course,Assessment,Grade
-import logging
+from.models import Course, Assessment, Grade
 logger = logging.getLogger(__name__)
+
 
 class IndexView(generic.ListView):
     template_name = 'courses/index.html'
@@ -24,8 +25,10 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['past_course_list'] = Course.objects.filter(start_date__lte=timezone.now()).order_by('-start_date')[5:]
+        data['past_course_list'] = Course.objects.filter(
+            start_date__lte=timezone.now()).order_by('-start_date')[5:]
         return data
+
 
 class DetailView(generic.DetailView):
     # try:
@@ -42,6 +45,7 @@ class DetailView(generic.DetailView):
         Excludes any questions that aren't published yet.
         """
         return Course.objects.filter(start_date__lte=timezone.now())
+
 
 def set_grade(request, course_id):
     course = get_object_or_404(Course, pk=course_id)

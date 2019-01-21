@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "C:\\Users\\liaus\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "python.linting.pep8Enabled": true,
+    "python.linting.pylintPath": "/path/to/pylint",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django"
+    ],
+    "python.linting.pylintEnabled": false
+}
