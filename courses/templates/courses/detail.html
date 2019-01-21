@@ -21,7 +21,7 @@
                     <div class="cell">{{assessment.weight|div:assessment.components}}</div>
                     <div class="cell">
                         <input type="text" name="{{assessment.id}}_{{i}}"
-                        value="{{assessment.id|getMark:i}}"/>
+                        value="{{assessment.id|getMark:i}}" required pattern="([0-100]*\.?[0-9]+)"/>
                     </div>
                 </div>
             {% endfor %}
@@ -31,7 +31,7 @@
                 <div class="cell">{{assessment.weight}}</div>
                 <div class="cell">
                     <input type="text" name="{{assessment.id}}_1"
-                    value="{{assessment.id|getMark:1}}"/>
+                    value="{{assessment.id|getMark:1}}" required pattern="([0-100]*\.?[0-9]+)"/>
                 </div>
             </div>
         {% endif %}

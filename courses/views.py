@@ -1,4 +1,3 @@
-import logging
 from django.shortcuts import render
 from django.utils import timezone
 
@@ -9,9 +8,9 @@ from django.urls import reverse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
+from decimal import Decimal
 
 from.models import Course, Assessment, Grade
-logger = logging.getLogger(__name__)
 
 
 class IndexView(generic.ListView):
@@ -50,12 +49,12 @@ class DetailView(generic.DetailView):
 def set_grade(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     assessments = Assessment.objects.filter(course=course)
+    # loop through assessments and update changed grades
     for assessment in assessments:
-        print(assessment.id)
         for i in range(1, assessment.components+1):
             mark = request.POST[(str)(assessment.id) + "_" + (str)(i)]
+            mark = Decimal.from_float((float)(mark))
             a = Assessment.objects.get(pk=assessment.id)
-            print(mark)
             try:
                 g = a.grade_set.get(component=i)
                 g.mark = mark

@@ -31,15 +31,15 @@ class Assessment(models.Model):
     weight = models.DecimalField(decimal_places=2, max_digits=4)
 
     def __str__(self):
-        return (str)(self.components) + ' ' + self.name + ' worth total of ' +
-        (str)(self.weight) + '%' + " for " + self.course.course_code
+        return (str)(self.components) + ' ' + self.name + ' worth total of '
+        + (str)(self.weight) + '%' + " for " + self.course.course_code
 
 
 class Grade(models.Model):
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
-    mark = models.DecimalField(decimal_places=2, max_digits=4)
+    mark = models.FloatField(default=0.0)
     component = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.assessment.__str__() + (str)(self.component) +
-        " " + (str)(self.mark) + "%"
+        return self.assessment.__str__() + (str)(self.component)
+        + " " + (str)(self.mark) + "%"

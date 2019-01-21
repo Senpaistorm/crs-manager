@@ -16,3 +16,7 @@
     width: 200px;         
     background-color: #ccc;  
 }
+
+input:invalid {
+    border-color: red;
+}
