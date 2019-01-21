@@ -50,7 +50,13 @@ def set_grade(request, course_id):
         print(assessment.id)
         for i in range(1, assessment.components+1):
             mark = request.POST[(str)(assessment.id) + "_" + (str)(i)]
+            a = Assessment.objects.get(pk=assessment.id)
             print(mark)
-            g = Grade(assessment=assessment, mark=mark, component=i)
-            g.save()
+            try:
+                g = a.grade_set.get(component=i)
+                g.mark = mark
+                g.save()
+            except(Grade.DoesNotExist):
+                a.grade_set.create(mark=mark, component=i)
+    # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))
