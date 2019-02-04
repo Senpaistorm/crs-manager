@@ -23,6 +23,41 @@ class Course(models.Model):
             weight += float(assessment.weight)
         return (weight == 100.0)
 
+    def getTotalAverage(self):
+        """
+        Calculate total accumulated average, including incomplete assessments,
+        calculated out of 100%.
+        """
+        if not Course.validate_weight(self):
+            return 0.0
+        mark = 0.0
+        assessments = Assessment.objects.filter(course=self)
+        for asm in assessments:
+            grades = Grade.objects.filter(assessment=asm)
+            weight = asm.weight/asm.components
+            for grade in grades:
+                mark += float(grade.mark) * float(weight) / 100
+        return mark
+
+    def getWeightedAverage(self):
+        """
+        Calculate weighted average of all completed assessments
+        Assumption: completed assessments have a mark greater than 0
+        """
+        if not Course.validate_weight(self):
+            return 0.0
+        mark = 0.0
+        availableMark = 0.0
+        assessments = Assessment.objects.filter(course=self)
+        for asm in assessments:
+            grades = Grade.objects.filter(assessment=asm)
+            weight = asm.weight/asm.components
+            for grade in grades:
+                if grade.mark > 0:
+                    availableMark += float(weight)
+                mark += (float(grade.mark)/100) * float(weight)
+        return mark/availableMark * 100
+
 
 class Assessment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
