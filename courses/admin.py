@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from .models import Course, Assessment, Grade
 
-
 class AssessmentInline(admin.TabularInline):
     model = Assessment
     extra = 3

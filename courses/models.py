@@ -3,6 +3,8 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
+from django.contrib.auth.models import User
+
 
 class Course(models.Model):
     course_code = models.CharField(max_length=20)
@@ -56,6 +58,7 @@ class Course(models.Model):
                 if grade.mark > 0:
                     availableMark += float(weight)
                 mark += (float(grade.mark)/100) * float(weight)
+        if not availableMark: return 0
         return mark/availableMark * 100
 
 
