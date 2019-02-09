@@ -9,6 +9,7 @@ from django.template import loader
 from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from decimal import Decimal
+from django.contrib.auth import authenticate, login
 
 from.models import Course, Assessment, Grade
 
@@ -63,3 +64,15 @@ def set_grade(request, course_id):
                 a.grade_set.create(mark=mark, component=i)
     # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))
+
+def login_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        # Redirect to a success page.
+        return HttpResponseRedirect(reverse('courses:index'))
+    else:
+        # Return an 'invalid login' error message.
+        return HttpResponseRedirect(reverse('courses:accounts/login'), args=(404))

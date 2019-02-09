@@ -1,0 +1,15 @@
+<!-- templates/registration/login.html -->
+<title>Login</title>
+<h2>Login</h2>
+<form action="{% url 'courses:login' %}"method="post">
+  {% csrf_token %}
+  <div>
+    Username:
+    <input type="text" name="username"/>
+  </div>
+  <div>
+    Password:
+    <input type="password" name="password"/>
+  </div>
+  <button type="submit">Login</button>
+</form>
