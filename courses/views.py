@@ -65,7 +65,7 @@ def set_grade(request, course_id):
     # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))
 
-def login_view(request):
+def login(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
