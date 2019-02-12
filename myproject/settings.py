@@ -33,7 +33,7 @@ LOGIN_REDIRECT_URL = '/courses'
 INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'polls.apps.PollsConfig',
-    'catalog.apps.CatalogConfig'
+    'catalog.apps.CatalogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

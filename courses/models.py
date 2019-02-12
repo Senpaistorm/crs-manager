@@ -60,6 +60,12 @@ class Course(models.Model):
         if not availableMark: return 0
         return mark/availableMark * 100
 
+class UserCourse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username + ' is taking ' + self.course.course_name
 
 class Assessment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

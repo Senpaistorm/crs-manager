@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Course, Assessment, Grade
+from .models import Course, Assessment, Grade, UserCourse
 
 class AssessmentInline(admin.TabularInline):
     model = Assessment
@@ -18,5 +18,5 @@ class CourseAdmin(admin.ModelAdmin):
     list_filter = ['start_date']
     search_fields = ['course_code']
 
-
+admin.site.register(UserCourse)
 admin.site.register(Course, CourseAdmin)
