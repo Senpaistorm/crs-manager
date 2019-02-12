@@ -64,15 +64,3 @@ def set_grade(request, course_id):
                 a.grade_set.create(mark=mark, component=i)
     # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))
-
-def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        # Redirect to a success page.
-        return HttpResponseRedirect(reverse('courses:index'))
-    else:
-        # Return an 'invalid login' error message.
-        return HttpResponseRedirect(reverse('courses:accounts/login'), args=(404))

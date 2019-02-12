@@ -5,7 +5,6 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
-
 class Course(models.Model):
     course_code = models.CharField(max_length=20)
     course_name = models.CharField(max_length=200)
