@@ -1,7 +1,7 @@
+# imports
 from django.shortcuts import render
 from django.utils import timezone
 
-# Create your views here.
 from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login
 
 from.models import Course, Assessment, Grade
 
-
+# generic ListView for index.html
 class IndexView(generic.ListView):
     template_name = 'courses/index.html'
     context_object_name = 'latest_course_list'
@@ -29,7 +29,7 @@ class IndexView(generic.ListView):
             start_date__lte=timezone.now()).order_by('-start_date')[5:]
         return data
 
-
+# generic DetailView for detail.html
 class DetailView(generic.DetailView):
     # try:
     #     question = Question.objects.get(pk=question_id)
