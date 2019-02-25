@@ -12,12 +12,12 @@ class Course(models.Model):
     def __str__(self):
         return self.course_code + ' ' + self.course_name
 
-    # def validate_weight(self):
-    #     weight = 0.0
-    #     assessments = Assessment.objects.filter(course=self)
-    #     for assessment in assessments:
-    #         weight += float(assessment.weight)
-    #     return (weight == 100.0)
+    def validate_weight(self):
+        weight = 0.0
+        assessments = Assessment.objects.filter(course=self)
+        for assessment in assessments:
+            weight += float(assessment.weight)
+        return (weight == 100.0)
 
     def getTotalAverage(self):
         """
@@ -58,7 +58,7 @@ class Course(models.Model):
 class UserCourse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=True)
+    is_current = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.username + ' is taking ' + self.course.course_name
@@ -75,7 +75,7 @@ class Assessment(models.Model):
 
 
 class Grade(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.IntegerField(default=1)
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     mark = models.FloatField(default=0.0)
     component = models.IntegerField(default=1)

@@ -9,13 +9,11 @@ class AssessmentInline(admin.TabularInline):
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_name', 'course_code',
-                    'start_date', 'validate_weight')
+                    'validate_weight')
     fieldsets = [
         (None, {'fields': ['course_name', 'course_code']}),
-        ('Date information', {'fields': ['start_date']}),
     ]
     inlines = [AssessmentInline]
-    list_filter = ['start_date']
     search_fields = ['course_code']
 
 admin.site.register(UserCourse)

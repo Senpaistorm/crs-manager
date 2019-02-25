@@ -19,14 +19,15 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_course_list'
 
     def get_queryset(self):
-        return Course.objects.filter(
-            start_date__lte=timezone.now()
-        ).order_by('-start_date')[:5]
+        # return Course.objects.filter(
+        #     start_date__lte=timezone.now()
+        # ).order_by('-start_date')[:5]
+        return Course.objects.all()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['past_course_list'] = Course.objects.filter(
-            start_date__lte=timezone.now()).order_by('-start_date')[5:]
+        # data['past_course_list'] = Course.objects.filter(
+        #     start_date__lte=timezone.now()).order_by('-start_date')[5:]
         return data
 
 # generic DetailView for detail.html
