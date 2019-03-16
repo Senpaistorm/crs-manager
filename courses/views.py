@@ -10,34 +10,22 @@ from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from decimal import Decimal
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
-from.models import Course, Assessment, Grade
+from.models import Course, Assessment, Grade, UserCourse
 
-# generic ListView for index.html
-class IndexView(generic.ListView):
-    template_name = 'courses/index.html'
-    context_object_name = 'latest_course_list'
+@login_required(login_url='/accounts/login/')
+def index(request):
+    courses = UserCourse.objects.filter(user=request.user)
 
-    def get_queryset(self):
-        # return Course.objects.filter(
-        #     start_date__lte=timezone.now()
-        # ).order_by('-start_date')[:5]
-        return Course.objects.all()
+    context = {
+        'course_list' : courses
+    }
 
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        # data['past_course_list'] = Course.objects.filter(
-        #     start_date__lte=timezone.now()).order_by('-start_date')[5:]
-        return data
+    return render(request, 'courses/index.html', context=context)
 
 # generic DetailView for detail.html
 class DetailView(generic.DetailView):
-    # try:
-    #     question = Question.objects.get(pk=question_id)
-    # except Question.DoesNotExist:
-    #     raise Http404("Question does not exist")
-    # question = get_object_or_404(Question, pk=question_id)
-    # return render(request, 'polls/detail.html', {'question': question})
     model = Course
     template_name = 'courses/detail.html'
 
@@ -45,9 +33,9 @@ class DetailView(generic.DetailView):
         """
         Excludes any questions that aren't published yet.
         """
-        return Course.objects.filter(start_date__lte=timezone.now())
+        return Course.objects
 
-
+@login_required(login_url='/accounts/login/')
 def set_grade(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     assessments = Assessment.objects.filter(course=course)
@@ -62,6 +50,6 @@ def set_grade(request, course_id):
                 g.mark = mark
                 g.save()
             except(Grade.DoesNotExist):
-                a.grade_set.create(mark=mark, component=i)
+                a.grade_set.create(user_id=request.user.id, mark=mark, component=i)
     # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))

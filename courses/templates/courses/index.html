@@ -4,25 +4,37 @@
 
 <h1>Course Manager</h1>
 
+{% if user.is_authenticated %}
+User: {{ user.get_username }}
+<a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+
+
 <h2>Current Courses</h2>
 
-{% if latest_course_list %}
-    <ul>
-    {% for course in latest_course_list %}
-    <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_code }} {{ course.course_name}}</a></li>
+{% if course_list %}
+<ul>
+    {% for usercourse in course_list %}
+        {% if usercourse.is_current %}
+        <li><a href="{% url 'courses:detail' usercourse.course.id %}">{{ usercourse.course_code }} {{ usercourse.course.course_name}}</a></li>
+        {% endif %}
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>No courses are registered.</p>
+<p>No courses are registered.</p>
 {% endif %}
 
 <h2>Past Courses</h2>
 {% if past_course_list %}
-    <ul>
+<ul>
     {% for course in past_course_list %}
     <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_code }} {{ course.course_name}}</a></li>
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>No courses are taken in the past.</p>
+<p>No courses are taken in the past.</p>
+{% endif %}
+
+{% else %}
+<p> You are not authenticated, please
+<a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
 {% endif %}

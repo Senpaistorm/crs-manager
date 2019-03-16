@@ -1,46 +1,56 @@
-<h1>{{ course.course_code }} {{course.course_name}}</h1>
-<title>{{ course.course_code }} {{course.course_name}}</title>
+
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% load static %}
 {% load courses_extra %}
 <link rel="stylesheet" type="text/css" href="{% static 'courses/detail.css' %}">
 
+{% if user.is_authenticated %}
+<div id = "auth_nav"> 
+User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+</div>
 
+<h1>{{ course.course_code }} {{course.course_name}}</h1>
+<title>{{ course.course_code }} {{course.course_name}}</title>
 <form action="{% url 'courses:set_grade' course.id %}" method="post">
-{% csrf_token %}
-<div class="table">
-    <div class="row">
-        <div class="cell">Name</div>
-        <div class="cell">Weight</div>
-        <div class="cell">Grade(%)</div>
-    </div>
-    {% for assessment in course.assessment_set.all %}
+    {% csrf_token %}
+    <div class="table">
+        <div class="row">
+            <div class="cell">Name</div>
+            <div class="cell">Weight</div>
+            <div class="cell">Grade(%)</div>
+        </div>
+        {% for assessment in course.assessment_set.all %}
         {% if assessment.components > 1 %}
-            {% for i in 1|filter_range:assessment.components %}
-                <div class="row">
-                    <div class="cell">{{assessment.name}} {{i}}</div>
-                    <div class="cell">{{assessment.weight|div:assessment.components}}</div>
-                    <div class="cell">
-                        <input type="text" name="{{assessment.id}}_{{i}}"
-                        value="{{assessment.id|getMark:i}}" required pattern="([0-100]*\.?[0-9]+)"/>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else%}
-            <div class="row">
-                <div class="cell">{{assessment.name}}</div>
-                <div class="cell">{{assessment.weight}}</div>
-                <div class="cell">
-                    <input type="text" name="{{assessment.id}}_1"
-                    value="{{assessment.id|getMark:1}}" required pattern="([0-100]*\.?[0-9]+)"/>
-                </div>
+        {% for i in 1|filter_range:assessment.components %}
+        <div class="row">
+            <div class="cell">{{assessment.name}} {{i}}</div>
+            <div class="cell">{{assessment.weight|div:assessment.components}}</div>
+            <div class="cell">
+                <input type="text" name="{{assessment.id}}_{{i}}" value="{{assessment.id|getMark:i}}" required
+                    pattern="([0-100]*\.?[0-9]+)" />
             </div>
+        </div>
+        {% endfor %}
+        {% else%}
+        <div class="row">
+            <div class="cell">{{assessment.name}}</div>
+            <div class="cell">{{assessment.weight}}</div>
+            <div class="cell">
+                <input type="text" name="{{assessment.id}}_1" value="{{assessment.id|getMark:1}}" required
+                    pattern="([0-100]*\.?[0-9]+)" />
+            </div>
+        </div>
         {% endif %}
-    {% endfor %}
-</div>
-<div class = "average">
-    <div class="total">Total Average: {{course.id|getTotalAverage}}%</div>
-    <div class="weighted">Weighted Average: {{course.id|getWeightedAverage}}%</div>
-</div>
-<input type="submit" value="Save Changes">
+        {% endfor %}
+    </div>
+    <div class="average">
+        <div class="total">Total Average: {{course.id|getTotalAverage}}%</div>
+        <div class="weighted">Weighted Average: {{course.id|getWeightedAverage}}%</div>
+    </div>
+    <input type="submit" value="Save Changes">
 </form>
+
+{% else %}
+<p> You are not authenticated, please
+<a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+{% endif %}

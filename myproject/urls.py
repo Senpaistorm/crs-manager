@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/courses/', permanent=True)),
+    path('', RedirectView.as_view(url='/accounts/login', permanent=True)),
 	path('courses/', include('courses.urls')),
 	path('polls/', include('polls.urls')),
     path('catalog', include('catalog.urls')),
