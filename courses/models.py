@@ -61,8 +61,7 @@ class UserCourse(models.Model):
     is_current = models.BooleanField(default=True)
 
     def __str__(self):
-        if is_current:
-            return self.user.username + ' is taking ' + self.course.course_name
+        return self.user.username + ' is taking ' + self.course.course_name
 
 class Assessment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
