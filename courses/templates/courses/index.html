@@ -5,10 +5,14 @@
 <h1>Course Manager</h1>
 
 {% if user.is_authenticated %}
-User: {{ user.get_username }}
-<a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+<div>
+    User: {{ user.get_username }}
+    <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+</div>
 
-
+<button>Add Course</button>
+<button>Drop Course</button>
+<button>Complete Course</button>
 <h2>Current Courses</h2>
 
 {% if course_list %}
