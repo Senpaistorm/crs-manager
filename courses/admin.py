@@ -19,3 +19,17 @@ class CourseAdmin(admin.ModelAdmin):
 admin.site.register(UserCourse)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Grade)
+
+from django.contrib.admin.sites import AdminSite
+
+from django.contrib.auth.forms import AuthenticationForm
+
+class BasicAdminSite(AdminSite):
+    login_form = AuthenticationForm
+
+    def has_permission(self, request):
+
+        return True
+
+
+basic_admin_site = BasicAdminSite(name='basic_admin')

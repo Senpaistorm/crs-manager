@@ -53,3 +53,17 @@ def set_grade(request, course_id):
                 a.grade_set.create(user_id=request.user.id, mark=mark, component=i)
     # go back to course detail page
     return HttpResponseRedirect(reverse('courses:detail', args=(course.id,)))
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
