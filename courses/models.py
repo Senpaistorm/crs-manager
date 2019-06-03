@@ -19,7 +19,7 @@ class Course(models.Model):
             weight += float(assessment.weight)
         return (weight == 100.0)
 
-    def getTotalAverage(self):
+    def getTotalAverage(self, user_id):
         """
         Calculate total accumulated average, including incomplete assessments,
         calculated out of 100%.
@@ -29,13 +29,13 @@ class Course(models.Model):
         mark = 0.0
         assessments = Assessment.objects.filter(course=self)
         for asm in assessments:
-            grades = Grade.objects.filter(assessment=asm)
+            grades = Grade.objects.filter(assessment=asm, user_id=user_id)
             weight = asm.weight/asm.components
             for grade in grades:
                 mark += float(grade.mark) * float(weight) / 100
         return mark
 
-    def getWeightedAverage(self):
+    def getWeightedAverage(self, user_id):
         """
         Calculate weighted average of all completed assessments
         Assumption: completed assessments have a mark greater than 0
@@ -46,7 +46,7 @@ class Course(models.Model):
         availableMark = 0.0
         assessments = Assessment.objects.filter(course=self)
         for asm in assessments:
-            grades = Grade.objects.filter(assessment=asm)
+            grades = Grade.objects.filter(assessment=asm, user_id=user_id)
             weight = asm.weight/asm.components
             for grade in grades:
                 if grade.mark > 0:

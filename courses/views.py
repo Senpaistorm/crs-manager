@@ -46,7 +46,7 @@ def set_grade(request, course_id):
             mark = Decimal.from_float((float)(mark))
             a = Assessment.objects.get(pk=assessment.id)
             try:
-                g = a.grade_set.get(component=i)
+                g = a.grade_set.get(component=i, user_id=request.user.id)
                 g.mark = mark
                 g.save()
             except(Grade.DoesNotExist):

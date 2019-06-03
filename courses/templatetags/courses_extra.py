@@ -27,22 +27,22 @@ def div(value, arg):
     return int(value) / int(arg)
 
 
-@register.filter
-def getMark(assessment_id, c):
+@register.simple_tag
+def getMark(assessment_id, c, user_id):
     a = Assessment.objects.get(pk=assessment_id)
     try:
-        return float(a.grade_set.get(component=c).mark)
+        return float(a.grade_set.get(component=c, user_id=user_id).mark)
     except(Grade.DoesNotExist):
         return 0.0
 
 
 @register.filter
-def getTotalAverage(course_id):
+def getTotalAverage(course_id, user_id):
     c = Course.objects.get(pk=course_id)
-    return c.getTotalAverage()
+    return c.getTotalAverage(user_id)
 
 
 @register.filter
-def getWeightedAverage(course_id):
+def getWeightedAverage(course_id, user_id):
     c = Course.objects.get(pk=course_id)
-    return c.getWeightedAverage()
+    return c.getWeightedAverage(user_id)

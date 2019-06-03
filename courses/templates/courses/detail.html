@@ -26,7 +26,7 @@ User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}"
             <div class="cell">{{assessment.name}} {{i}}</div>
             <div class="cell">{{assessment.weight|div:assessment.components}}</div>
             <div class="cell">
-                <input type="text" name="{{assessment.id}}_{{i}}" value="{{assessment.id|getMark:i}}" required
+                <input type="text" name="{{assessment.id}}_{{i}}" value="{% getMark assessment.id i user.id %}" required
                     pattern="^(?:\d{1,2}(?:\.\d{1,2})?|100(?:\.0?0)?)" />
             </div>
         </div>
@@ -36,7 +36,7 @@ User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}"
             <div class="cell">{{assessment.name}}</div>
             <div class="cell">{{assessment.weight}}</div>
             <div class="cell">
-                <input type="text" name="{{assessment.id}}_1" value="{{assessment.id|getMark:1}}" required
+                <input type="text" name="{{assessment.id}}_1" value="{% getMark assessment.id 1 user.id %}" required
                     pattern="^(?:\d{1,2}(?:\.\d{1,2})?|100(?:\.0?0)?)" />
             </div>
         </div>
@@ -44,8 +44,8 @@ User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}"
         {% endfor %}
     </div>
     <div class="average">
-        <div class="total">Total Average: {{course.id|getTotalAverage}}%</div>
-        <div class="weighted">Weighted Average: {{course.id|getWeightedAverage}}%</div>
+        <div class="total">Total Average: {{course.id|getTotalAverage:user.id}}%</div>
+        <div class="weighted">Weighted Average: {{course.id|getWeightedAverage:user.id}}%</div>
     </div>
     <input type="submit" value="Save Changes">
     <div> 
