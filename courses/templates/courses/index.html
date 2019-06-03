@@ -10,7 +10,7 @@
     <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 </div>
 
-<button>Add Course</button>
+<a href="{% url 'courses:add_course' %}">Add Course</a>
 <button>Drop Course</button>
 <h2>Current Courses</h2>
 

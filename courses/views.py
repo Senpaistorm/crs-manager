@@ -67,3 +67,10 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+def add_course_view(request):
+    courses = Course.objects.all()
+    context = {
+        'course_list' : courses
+    }
+    return render(request, 'courses/add_course.html', context=context)

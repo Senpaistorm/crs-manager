@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('<int:course_id>/set_grade/', views.set_grade, name='set_grade'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('add_course', views.add_course_view, name='add_course')
 ]
