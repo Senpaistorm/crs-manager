@@ -6,7 +6,7 @@ from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
 from decimal import Decimal
 from django.contrib.auth import authenticate, login
@@ -73,8 +73,17 @@ def add_course_view(request):
     cur_courses = UserCourse.objects.filter(user__pk=request.user.id).values('course')
     # exclude the list of courses
     courses = Course.objects.exclude(pk__in=cur_courses)
-
+    
     context = {
         'course_list' : courses,
     }
     return render(request, 'courses/add_course.html', context=context)
+
+@login_required(login_url='/accounts/login/')
+def add_course(request, course_id):
+
+    crs = Course.objects.get(pk=course_id)
+    newUC = UserCourse(user=request.user, course=crs)
+    print(newUC)
+    newUC.save()
+    return redirect('/courses/add_course')
