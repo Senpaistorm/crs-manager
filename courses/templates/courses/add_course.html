@@ -1,0 +1,15 @@
+{% if user.is_authenticated %}
+<div id = "auth_nav"> 
+User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+</div>
+
+{% for course in course_list %}
+<h1>{{ course.course_code }} {{course.course_name}}</h1>
+<title>{{ course.course_code }} {{course.course_name}}</title>
+
+{% endfor %}
+
+{% else %}
+<p> You are not authenticated, please
+<a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+{% endif %}

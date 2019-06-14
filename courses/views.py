@@ -69,8 +69,12 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 def add_course_view(request):
-    courses = Course.objects.all()
+    # get a list of courses that the user is taking
+    cur_courses = UserCourse.objects.filter(user__pk=request.user.id).values('course')
+    # exclude the list of courses
+    courses = Course.objects.exclude(pk__in=cur_courses)
+
     context = {
-        'course_list' : courses
+        'course_list' : courses,
     }
     return render(request, 'courses/add_course.html', context=context)
