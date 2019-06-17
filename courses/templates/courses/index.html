@@ -7,18 +7,18 @@
 {% if user.is_authenticated %}
 <div>
     User: {{ user.get_username }}
-    <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+    <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 </div>
 
-<a href="{% url 'courses:add_course' %}">Add Course</a>
-<button>Drop Course</button>
+<a class="button" href="{% url 'courses:add_course' %}">Add Course</a>
+<a class="button" href="{% url 'courses:drop_course' %}">Drop Course</a>
 <h2>Current Courses</h2>
 
 {% if course_list %}
 <ul>
     {% for usercourse in course_list %}
         {% if usercourse.is_current %}
-        <li><a href="{% url 'courses:detail' usercourse.course.id %}">{{ usercourse.course_code }} {{ usercourse.course.course_name}}</a></li>
+        <li><a href="{% url 'courses:detail' usercourse.course.id %}">{{ usercourse.course.course_code }} {{ usercourse.course.course_name}}</a></li>
         {% endif %}
     {% endfor %}
 </ul>

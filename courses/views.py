@@ -81,9 +81,26 @@ def add_course_view(request):
 
 @login_required(login_url='/accounts/login/')
 def add_course(request, course_id):
-
     crs = Course.objects.get(pk=course_id)
     newUC = UserCourse(user=request.user, course=crs)
     print(newUC)
     newUC.save()
     return redirect('/courses/add_course')
+
+def drop_course_view(request):
+    # get a list of courses that the user is taking
+    cur_courses = UserCourse.objects.filter(user__pk=request.user.id, is_current=True).values('course')
+    # exclude the list of courses
+    courses = Course.objects.filter(pk__in=cur_courses)
+    
+    context = {
+        'course_list' : courses,
+    }
+    return render(request, 'courses/drop_course.html', context=context)
+
+@login_required(login_url='/accounts/login/')
+def drop_course(request, course_id):
+    crs = Course.objects.get(pk=course_id)
+    newUC = UserCourse.objects.get(user=request.user, course=crs)
+    newUC.delete()
+    return redirect('/courses/drop_course')

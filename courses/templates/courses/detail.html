@@ -3,10 +3,11 @@
 {% load static %}
 {% load courses_extra %}
 <link rel="stylesheet" type="text/css" href="{% static 'courses/detail.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'courses/style.css' %}">
 
 {% if user.is_authenticated %}
 <div id = "auth_nav"> 
-User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+User: {{ user.get_username }}  <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 </div>
 
 <h1>{{ course.course_code }} {{course.course_name}}</h1>
@@ -47,9 +48,9 @@ User: {{ user.get_username }}  <a href="{% url 'logout'%}?next={{request.path}}"
         <div class="total">Total Average: {{course.id|getTotalAverage:user.id}}%</div>
         <div class="weighted">Weighted Average: {{course.id|getWeightedAverage:user.id}}%</div>
     </div>
-    <input type="submit" value="Save Changes">
+    <input class="button" type="submit" value="Save Changes">
     <div> 
-        <a href="{% url 'courses:index' %}"> Back to Courses</a>
+        <a class="button" href="{% url 'courses:index' %}"> Back to Courses</a>
     </div>
 </form>
 

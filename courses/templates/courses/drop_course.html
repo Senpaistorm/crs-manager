@@ -11,13 +11,13 @@
 <div>
 <ul>
     {% for course in course_list %}
-    <li><a href="{% url 'courses:add_course_req' course.id %}">{{ course.course_code }} {{course.course_name}}</a></li>
+    <li><a href="{% url 'courses:drop_course_req' course.id %}">{{ course.course_code }} {{course.course_name}}</a></li>
     {% endfor %}    
 </ul>
 </div>
 
 <div> 
-    <a href="{% url 'courses:index' %}"> Back to Courses</a>
+    <a class="button" href="{% url 'courses:index' %}"> Back to Courses</a>
 </div>
 
 {% else %}
