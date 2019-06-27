@@ -27,10 +27,12 @@
 {% endif %}
 
 <h2>Past Courses</h2>
-{% if past_course_list %}
+{% if course_list %}
 <ul>
-    {% for course in past_course_list %}
-    <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_code }} {{ course.course_name}}</a></li>
+    {% for usercourse in course_list %}
+        {% if not usercourse.is_current%}
+        <li><a href="{% url 'courses:detail' usercourse.course.id %}">{{ usercourse.course.course_code }} {{ usercourse.course.course_name}}</a></li>
+        {% endif%}
     {% endfor %}
 </ul>
 {% else %}

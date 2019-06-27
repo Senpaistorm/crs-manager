@@ -19,7 +19,7 @@ def index(request):
     courses = UserCourse.objects.filter(user=request.user)
 
     context = {
-        'course_list' : courses
+        'course_list' : courses,
     }
 
     return render(request, 'courses/index.html', context=context)
@@ -83,7 +83,6 @@ def add_course_view(request):
 def add_course(request, course_id):
     crs = Course.objects.get(pk=course_id)
     newUC = UserCourse(user=request.user, course=crs)
-    print(newUC)
     newUC.save()
     return redirect('/courses/add_course')
 
@@ -104,3 +103,11 @@ def drop_course(request, course_id):
     newUC = UserCourse.objects.get(user=request.user, course=crs)
     newUC.delete()
     return redirect('/courses/drop_course')
+
+@login_required(login_url='/accounts/login/')
+def complete_course_req(request, course_id):
+    crs = Course.objects.get(pk=course_id)
+    userCrs = UserCourse.objects.get(user=request.user, course=crs)
+    userCrs.is_current = False
+    userCrs.save()
+    return redirect('/courses/')

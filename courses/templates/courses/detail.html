@@ -10,7 +10,7 @@
 User: {{ user.get_username }}  <a class="button" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 </div>
 
-<h1>{{ course.course_code }} {{course.course_name}}</h1>
+<h1>{{ course.course_code }} {{course.course_name}} <a class="button" href="{% url 'courses:complete_course_req' course.id %}">Complete Course</a></h1>
 <title>{{ course.course_code }} {{course.course_name}}</title>
 <form action="{% url 'courses:set_grade' course.id %}" method="post">
     {% csrf_token %}
