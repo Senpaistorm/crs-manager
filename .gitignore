@@ -13,3 +13,8 @@ lib
 lib64
 */settings.json
 .vscode/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
